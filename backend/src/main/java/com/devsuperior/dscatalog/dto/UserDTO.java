@@ -9,7 +9,7 @@ import com.devsuperior.dscatalog.entities.User;
 public class UserDTO implements Serializable{
 	private static final long serialVersionUID = 1L;
 
-	private Integer id;
+	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -20,7 +20,7 @@ public class UserDTO implements Serializable{
 		
 	}
 
-	public UserDTO(Integer id, String firstName, String lastName, String email) {
+	public UserDTO(Long id, String firstName, String lastName, String email) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -35,11 +35,11 @@ public class UserDTO implements Serializable{
 		entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
