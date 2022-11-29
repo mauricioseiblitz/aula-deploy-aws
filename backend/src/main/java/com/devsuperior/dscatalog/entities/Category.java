@@ -30,7 +30,7 @@ public class Category implements Serializable{
 	private Instant createdAt;
 	
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-	private Instant updateAt;
+	private Instant updatedAt;
 	
 	@ManyToMany(mappedBy = "categories")
 	private Set<Product> products = new HashSet<>();
@@ -59,22 +59,17 @@ public class Category implements Serializable{
 		this.name = name;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
 	public Instant getCreatedAt() {
-		return createdAt;
-	}
+        return createdAt;
+    }
 
-	public Instant getUpdateAt() {
-		return updateAt;
-	}
-	
-	public Set<Product> getProducts() {
-		return products;
-	}
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+    
+    public Set<Product> getProducts() {
+        return products;
+    }
 	
 	@PrePersist
 	public void prePersist() {
@@ -83,19 +78,24 @@ public class Category implements Serializable{
 	
 	@PreUpdate
 	public void preUpdate() {
-		updateAt = Instant.now();
+		updatedAt = Instant.now();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Category other = (Category) obj;
-		return Objects.equals(id, other.id);
-	}
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Category other = (Category) obj;
+        return Objects.equals(id, other.id);
+    }
 	
 }
