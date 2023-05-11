@@ -48,6 +48,7 @@
 }
 
 .description-container {
+  padding: 15px;
   color: #9e9e9e;
   letter-spacing: -0.015em;
   border: 1px solid #e1e1e1;
