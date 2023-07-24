@@ -1,6 +1,7 @@
 import qs from "qs";
 import axios, { AxiosRequestConfig } from "axios";
 import history from "./history";
+import jwtDecode from "jwt-decode";
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -9,6 +10,14 @@ const tokenKey = 'authData';
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'dscatalog';
 
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'dscatalog123';
+
+type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
+
+type TokenData = {
+    exp: number;
+    user_name: string;
+    authorities: Role[];
+}
 
 type LoginData = {
     username: string,
@@ -78,3 +87,19 @@ axios.interceptors.response.use(function (response) {
     }
     return Promise.reject(error);
 });
+
+
+export const getTokenData = (): TokenData | undefined => {
+    try {
+        return jwtDecode(getAuthData().access_token);
+    }
+    catch (error) {
+        return undefined
+    }
+}
+
+export const isAuthenticated = (): boolean => {
+    const tokenData = getTokenData()
+
+    return (tokenData && tokenData.exp * 1000 > Date.now()) ? true : false;
+}
