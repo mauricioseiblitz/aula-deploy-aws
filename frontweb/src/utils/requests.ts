@@ -1,5 +1,5 @@
 import qs from "qs";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
 
@@ -35,6 +35,15 @@ export const requestBackendLogin = (loginData: LoginData) => {
     });
 
     return axios({ method: 'POST', baseURL: BASE_URL, url: '/oauth/token', data, headers });
+}
+
+export const requestBackend = (config: AxiosRequestConfig) => {
+    const headers = config.withCredentials
+        ? {
+            ...config.headers, Authorization: 'Bearer ' + getAuthData().access_token,
+        } : config.headers;
+
+    return axios({ ...config, baseURL: BASE_URL, headers });
 }
 
 export const saveAuthData = (obj: LoginResponse) => {
